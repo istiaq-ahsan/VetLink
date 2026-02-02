@@ -41,7 +41,7 @@ const Navbar = () => {
             {navitems}
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">
+        <a href="/" className=" text-xl">
           <VetLinkLogo></VetLinkLogo>
         </a>
       </div>
@@ -51,7 +51,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        <a href="/login" className="btn">Login</a>
       </div>
     </div>
   );
