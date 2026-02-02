@@ -1,17 +1,34 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
+import SocialLogin from "../SocialLogin/SocialLogin";
+import Button from '../../shared/Button/Button';
+import useAuth from "../../../hooks/useAuth";
+
 
 const Login = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
+  const { signIn } = useAuth();
+
   const onSubmit = (data) => {
     console.log(data);
+    signIn(data.email, data.password)
+      .then((result) => {
+        console.log(result.user);
+        navigate("/");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
+
 
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
@@ -50,7 +67,7 @@ const Login = () => {
               <a className="link link-hover">Forgot password?</a>
             </div>
 
-            <button className="btn bg-green-600 text-white mt-4">Login</button>
+            <Button type="submit" className=" mt-4">Login</Button>
           </fieldset>
           <p>
             <small>
@@ -61,6 +78,7 @@ const Login = () => {
             </small>
           </p>
         </form>
+      <SocialLogin></SocialLogin>
       </div>
     </div>
   );

@@ -1,12 +1,18 @@
 import React from "react";
 import { NavLink } from "react-router";
 import VetLinkLogo from "../VetLinkLogo/VetLinkLogo";
-
+import useAuth from "../../../hooks/useAuth";
+import Button from "../Button/Button";
 const Navbar = () => {
+  const { user, logout } = useAuth();
+
   const navitems = (
     <>
       <li>
         <NavLink to="/">Home</NavLink>
+      </li>
+      <li>
+        <NavLink to="/coverage">Coverage</NavLink>
       </li>
       <li>
         <NavLink to="/aboutus">About Us</NavLink>
@@ -46,12 +52,19 @@ const Navbar = () => {
         </a>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
-          {navitems}
-        </ul>
+        <ul className="menu menu-horizontal px-1">{navitems}</ul>
       </div>
       <div className="navbar-end">
-        <a href="/login" className="btn">Login</a>
+        {user ? (
+          <Button onClick={logout} className="btn">
+            Logout
+          </Button>
+        ) : (
+          
+            <NavLink to="/login">
+              <Button>Login</Button>
+            </NavLink>
+        )}
       </div>
     </div>
   );
