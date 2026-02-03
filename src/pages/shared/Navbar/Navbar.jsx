@@ -17,6 +17,11 @@ const Navbar = () => {
       <li>
         <NavLink to="/book">Book Consultation</NavLink>
       </li>
+      {user && (
+        <li>
+          <NavLink to="/dashboard">Dashboard</NavLink>
+        </li>
+      )}
     </>
   );
   return (
@@ -60,10 +65,9 @@ const Navbar = () => {
             Logout
           </Button>
         ) : (
-          
-            <NavLink to="/login">
-              <Button>Login</Button>
-            </NavLink>
+          <NavLink to="/login">
+            <Button>Login</Button>
+          </NavLink>
         )}
       </div>
     </div>

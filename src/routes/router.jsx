@@ -7,6 +7,8 @@ import Register from "../pages/Authentication/Register/Register";
 import Coverage from "../pages/Coverage/Coverage";
 import BookConsultation from "../pages/BookConsultation/BookConsultation";
 import PrivateRoute from "./PrivateRoute";
+import DashboardLayout from "../layouts/DashboardLayout";
+import MyBookings from "../pages/Dashboard/User/MyBookings";
 
 export const router = createBrowserRouter([
   {
@@ -44,4 +46,16 @@ export const router = createBrowserRouter([
       },
     ]
   },
+  {
+    path:"/dashboard",
+    element: <PrivateRoute>
+      <DashboardLayout></DashboardLayout>
+    </PrivateRoute>,
+    children:[
+      {
+        path:"mybookings",
+        Component: MyBookings
+      }
+    ]
+  }
 ]);
