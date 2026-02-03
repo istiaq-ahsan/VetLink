@@ -5,6 +5,8 @@ import AuthLayout from "../layouts/AuthLayout";
 import Login from "../pages/Authentication/Login/Login";
 import Register from "../pages/Authentication/Register/Register";
 import Coverage from "../pages/Coverage/Coverage";
+import BookConsultation from "../pages/BookConsultation/BookConsultation";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +21,12 @@ export const router = createBrowserRouter([
           path: "/coverage",
           Component: Coverage,
           loader: ()=> fetch("/serviceCenters.json")
+        },
+        {
+          path:"/book",
+          element: <PrivateRoute>
+            <BookConsultation></BookConsultation>
+          </PrivateRoute>
         }
     ]
   },
