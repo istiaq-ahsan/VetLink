@@ -3,9 +3,13 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import Consultation from "./Consultation";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const BookConsultation = () => {
   const { user } = useAuth();
+
+  const axiosSecure = useAxiosSecure();
+
   const {
     register,
     handleSubmit,
@@ -70,13 +74,16 @@ const BookConsultation = () => {
 
     if (result.isConfirmed) {
       console.log("Saved Data:", consultationData);
-
-      Swal.fire({
-        icon: "success",
-        title: "Consultation Booked!",
-        text: "✅ Your consultation has been successfully booked.",
+      axiosSecure.post("/bookings", consultationData).then((res) => {
+        console.log(res.data);
+        if (res.data.insertedId) {
+          Swal.fire({
+            icon: "success",
+            title: "Consultation Booked!",
+            text: "✅ Your consultation has been successfully booked.",
+          });
+        }
       });
-
       reset();
     }
   };
