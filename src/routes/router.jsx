@@ -12,6 +12,10 @@ import MyBookings from "../pages/Dashboard/User/MyBookings";
 import BookingHistory from "../pages/Dashboard/User/BookingHistory";
 import Profile from "../pages/Dashboard/User/Profile";
 import Prescriptions from "../pages/Dashboard/User/Prescriptions";
+import AllPatients from "../pages/Dashboard/Doctor/AllPatients";
+import AllClients from "../pages/Dashboard/Admin/AllClients";
+import AllDoctors from "../pages/Dashboard/Admin/AllDoctors";
+import PendingDoctors from "../pages/Dashboard/Admin/PendingDoctors";
 
 export const router = createBrowserRouter([
   {
@@ -74,7 +78,19 @@ export const router = createBrowserRouter([
       {
         path:"prescriptions",
         Component: Prescriptions
-      }
+      },
+      {
+        path:"patients",
+        Component: AllPatients
+      },
+      {
+        path:"all-doctors",
+        Component: AllDoctors
+      },
+      {
+        path:"pending-doctors",
+        Component: PendingDoctors
+      },
     ]
   }
 ]);

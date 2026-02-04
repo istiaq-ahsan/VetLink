@@ -2,28 +2,35 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ProfileCard from "../../shared/Card/ProfileCard";
 import useAuth from "../../../hooks/useAuth";
+import VetRequestForm from "../../../components/DashboardComponents/Form/VetRequestForm";
 
 const Profile = () => {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
+  const [showVetForm, setShowVetForm] = useState(false);
 
   useEffect(() => {
     if (user?.email) {
       axios
         .get(`${import.meta.env.VITE_API_BASE_URL}/users?email=${user.email}`)
         .then((res) => setProfile(res.data[0]))
-        .catch((err) => console.log(err));
+        .catch(console.log);
     }
   }, [user]);
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
-      {profile ? (
-        <ProfileCard profile={profile} />
-      ) : (
-        <p className="text-gray-500">Loading profile...</p>
+    <>
+      {profile && (
+        <ProfileCard
+          profile={profile}
+          onBecomeVet={() => setShowVetForm(true)}
+        />
       )}
-    </div>
+
+      {showVetForm && (
+        <VetRequestForm onClose={() => setShowVetForm(false)} />
+      )}
+    </>
   );
 };
 

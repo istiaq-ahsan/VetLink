@@ -2,17 +2,41 @@ import { Link } from "react-router-dom";
 import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
 import { AiOutlineBars } from "react-icons/ai";
-
-// Correct import: MenuItem (uppercase)
-import MenuItem from "../../components/DashboardComponents/MenuItem";
-
-// Import your logo
 import logo from "../../assets/logo.png";
 import VetLinkLogo from "../../pages/shared/VetLinkLogo/VetLinkLogo";
 import useAuth from "../../hooks/useAuth";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import AdminMenu from "./AdminMenu";
+import DrMenu from "./DrMenu";
+import ClientMenu from "./ClientMenu";
+import MenuItem from "./MenuItem";
+
+
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
-  const{logout} = useAuth();
+  const { logout, user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
+  // Fetch user info
+  const { data: userInfo, isLoading } = useQuery({
+    queryKey: ["userData", user?.email],
+    queryFn: async () => {
+      const { data } = await axiosSecure.get(`userInfo/${user?.email}`);
+      return data;
+    },
+  });
+
+  const { role } = userInfo || {};
+
+  if (isLoading) return <p>Loading...</p>; // Replace with <LoadingSpinner /> if you have one
+
+  // Determine which menu to show
+  const renderMenu = () => {
+    if (role === "admin") return <AdminMenu />;
+    if (role === "doctor") return <DrMenu />;
+    return <ClientMenu />;
+  };
 
   return (
     <>
@@ -37,22 +61,19 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         } md:translate-x-0 transition duration-200 ease-in-out bg-white shadow-lg`}
       >
         {/* Logo */}
-        <div className="hidden shadow-lg md:flex w-full px-4 py-2 rounded-lg justify-center items-center bg-gray-100 mx-auto">
-          <Link to="/" className="">
-            <VetLinkLogo></VetLinkLogo>
+        <div className="hidden md:flex w-full px-4 py-2 shadow-lg rounded-lg justify-center items-center bg-gray-100 mx-auto">
+          <Link to="/" className="flex items-center gap-4">
+            <img src={logo} className="w-8 h-8" alt="" />
+            <h1 className="font-bold text-lg">VetCare</h1>
           </Link>
         </div>
 
-        {/* Navigation */}
-        <nav className="flex-1 mt-3 space-y-2">
-          <MenuItem label="Dashboard" address="/dashboard" />
-          <MenuItem label="Book Consultation" address="/dashboard/book-consultation" />
-          <MenuItem label="My Bookings" address="/dashboard/my-bookings" />
-          <MenuItem label="Prescriptions" address="/dashboard/prescriptions" />
-          <MenuItem label="Booking History" address="/dashboard/booking-history" />
-        </nav>
+        {/* Navigation Items */}
+        <div className="flex flex-col justify-between flex-1 mt-6">
+          <nav>{renderMenu()}</nav>
+        </div>
 
-        {/* Footer */}
+        {/* Footer Items */}
         <div>
           <hr />
           <MenuItem icon={FcSettings} label="Profile" address="/dashboard/profile" />
