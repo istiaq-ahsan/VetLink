@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
 import Button from '../../shared/Button/Button';
 import useAuth from "../../../hooks/useAuth";
@@ -8,6 +8,8 @@ import useAuth from "../../../hooks/useAuth";
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from  = location.state?.from || '/';
 
   const {
     register,
@@ -20,9 +22,9 @@ const Login = () => {
   const onSubmit = (data) => {
     console.log(data);
     signIn(data.email, data.password)
-      .then((result) => {
-        console.log(result.user);
-        navigate("/");
+      .then(result => {
+        //console.log(result.user);
+        navigate(from, { replace: true });
       })
       .catch((error) => {
         console.log(error);

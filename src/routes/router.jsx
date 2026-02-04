@@ -9,6 +9,9 @@ import BookConsultation from "../pages/BookConsultation/BookConsultation";
 import PrivateRoute from "./PrivateRoute";
 import DashboardLayout from "../layouts/DashboardLayout";
 import MyBookings from "../pages/Dashboard/User/MyBookings";
+import BookingHistory from "../pages/Dashboard/User/BookingHistory";
+import Profile from "../pages/Dashboard/User/Profile";
+import Prescriptions from "../pages/Dashboard/User/Prescriptions";
 
 export const router = createBrowserRouter([
   {
@@ -53,8 +56,24 @@ export const router = createBrowserRouter([
     </PrivateRoute>,
     children:[
       {
-        path:"mybookings",
+        path:"book-consultation",
+        Component: BookConsultation
+      },
+      {
+        path:"my-bookings",
         Component: MyBookings
+      },
+      {
+        path:"booking-history",
+        Component: BookingHistory
+      },
+      {
+        path:"profile",
+        Component: Profile
+      },
+      {
+        path:"prescriptions",
+        Component: Prescriptions
       }
     ]
   }

@@ -8,11 +8,11 @@ import MenuItem from "../../components/DashboardComponents/MenuItem";
 
 // Import your logo
 import logo from "../../assets/logo.png";
+import VetLinkLogo from "../../pages/shared/VetLinkLogo/VetLinkLogo";
+import useAuth from "../../hooks/useAuth";
 
 const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
-  const logOut = () => {
-    console.log("Logging out..."); // placeholder for now
-  };
+  const{logout} = useAuth();
 
   return (
     <>
@@ -37,20 +37,19 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
         } md:translate-x-0 transition duration-200 ease-in-out bg-white shadow-lg`}
       >
         {/* Logo */}
-        <div className="hidden md:flex w-full px-4 py-2 rounded-lg justify-center items-center bg-gray-100 mx-auto">
-          <Link to="/" className="flex items-center gap-4">
-            <img src={logo} className="w-8 h-8" alt="VetCare Logo" />
-            <h1 className="font-bold text-lg">VetCare</h1>
+        <div className="hidden shadow-lg md:flex w-full px-4 py-2 rounded-lg justify-center items-center bg-gray-100 mx-auto">
+          <Link to="/" className="">
+            <VetLinkLogo></VetLinkLogo>
           </Link>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 mt-6 space-y-2">
+        <nav className="flex-1 mt-3 space-y-2">
           <MenuItem label="Dashboard" address="/dashboard" />
           <MenuItem label="Book Consultation" address="/dashboard/book-consultation" />
           <MenuItem label="My Bookings" address="/dashboard/my-bookings" />
-          <MenuItem label="Patients" address="/dashboard/patients" />
-          <MenuItem label="Reports" address="/dashboard/reports" />
+          <MenuItem label="Prescriptions" address="/dashboard/prescriptions" />
+          <MenuItem label="Booking History" address="/dashboard/booking-history" />
         </nav>
 
         {/* Footer */}
@@ -58,7 +57,7 @@ const Sidebar = ({ isSidebarOpen, toggleSidebar }) => {
           <hr />
           <MenuItem icon={FcSettings} label="Profile" address="/dashboard/profile" />
           <button
-            onClick={logOut}
+            onClick={logout}
             className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300 hover:text-gray-700 transition-colors duration-300 transform"
           >
             <GrLogout className="w-5 h-5" />

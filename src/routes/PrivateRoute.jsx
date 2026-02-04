@@ -1,18 +1,18 @@
 import React from 'react'
 import useAuth from '../hooks/useAuth';
-import { Navigate } from 'react-router';
+import { Navigate, useLocation } from 'react-router';
+import LoadingSpinner from '../pages/shared/Spinner/LoadingSpinner';
 
 const PrivateRoute = ({children}) => {
     const{user, loading} = useAuth();
+    const location = useLocation();
 
     if(loading){
-        <div>
-            <span className="loading loading-infinity loading-xl"></span>
-        </div>
+        return <LoadingSpinner></LoadingSpinner>;
     }
 
     if(!user){
-        return <Navigate state={location.pathname} to="/login"></Navigate>
+        return <Navigate to="/login" state={{ from: location }} replace />;
     }
 
   return children;
