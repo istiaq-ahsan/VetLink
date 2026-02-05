@@ -12,6 +12,7 @@ const MyBookings = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       const res = await axiosSecure.get(`/bookings?email=${user.email}`);
+      console.log(res);
       return res.data;
     },
   });

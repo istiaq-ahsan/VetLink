@@ -1,4 +1,5 @@
 import React from "react";
+import Button from "../shared/Button/Button";
 
 const statusColor = {
   pending: "badge-warning",
@@ -42,7 +43,7 @@ const BookingTable = ({ bookings = [], showActions = false }) => {
                 <div className="text-xs text-gray-500">{b.petType}</div>
               </td>
 
-              <td>{b.vet}</td>
+              <td>{b.vetName}</td>
 
               <td>
                 <span className="badge badge-outline">{b.mode}</span>
@@ -66,7 +67,7 @@ const BookingTable = ({ bookings = [], showActions = false }) => {
                   {b.status === "confirmed" && (
                     <button className="btn btn-primary btn-sm">Join Call</button>
                   )}
-                  <button className="btn btn-outline btn-sm">Details</button>
+                  <Button className="btn btn-outline btn-sm">Details</Button>
                 </td>
               )}
             </tr>

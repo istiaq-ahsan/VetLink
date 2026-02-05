@@ -1,11 +1,72 @@
-import React from 'react'
+import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import AllDoctorTable from "./Table/AllDoctorTable";
+import useAxios from "../../../hooks/useAxios";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
 
 const AllDoctors = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const axios = useAxios();
+  const axiosSecure = useAxiosSecure();
 
-export default AllDoctors
+  const { data: doctors = [], isLoading } = useQuery({
+    queryKey: ["doctors"],
+    queryFn: async () => {
+      const res = await axiosSecure.get('/all-doctor');
+      return res.data;
+    }
+  });
+
+  if (isLoading) return <p className="text-center">Loading doctors...</p>;
+
+  return (
+    <div className="p-6">
+      <h2 className="text-2xl font-semibold mb-4">Veterinarian Applications</h2>
+
+      <AllDoctorTable
+        doctors={doctors}
+        onView={(doctor) => setSelectedDoctor(doctor)}
+      />
+
+      {/* Modal */}
+      {selectedDoctor && (
+        <dialog id="doctorModal" className="modal modal-open">
+          <div className="modal-box max-w-lg">
+            <h3 className="text-xl font-bold mb-2">{selectedDoctor.fullName}</h3>
+
+            <img
+              src={selectedDoctor.degreeURL}
+              alt="Degree"
+              className="rounded mb-3"
+            />
+
+            <div className="space-y-1">
+              <p><b>Email:</b> {selectedDoctor.email}</p>
+              <p><b>Clinic:</b> {selectedDoctor.clinic}</p>
+              <p><b>License:</b> {selectedDoctor.license}</p>
+              <p><b>Experience:</b> {selectedDoctor.experience} years</p>
+              <p><b>Status:</b> 
+                <span className="badge badge-warning ml-2">
+                  {selectedDoctor.status}
+                </span>
+              </p>
+              <p><b>Applied:</b> {new Date(selectedDoctor.applied_at).toLocaleString()}</p>
+            </div>
+
+            <div className="modal-action">
+              <button
+                className="btn"
+                onClick={() => setSelectedDoctor(null)}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </dialog>
+      )}
+    </div>
+  );
+};
+
+export default AllDoctors;
+

@@ -1,5 +1,6 @@
 import React from "react";
 import location from "../../../assets/location-merchant.png";
+import { Link } from "react-router";
 
 const BeMerchant = () => {
   return (
@@ -29,13 +30,13 @@ const BeMerchant = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 mt-4 w-full">
-            <button className="btn btn-outline bg-green-600 hover:bg-green-700 text-white rounded-full w-full sm:w-auto text-center px-6">
+            <Link to="/book" className="btn btn-outline bg-green-600 hover:bg-green-700 text-white rounded-full w-full sm:w-auto text-center px-6">
               Get Veterinary Support
-            </button>
+            </Link>
 
-            <button className="btn btn-outline hover:bg-green-600 hover:text-white rounded-full w-full sm:w-auto text-center px-6">
+            <Link to="/book" className="btn btn-outline hover:bg-green-600 hover:text-white rounded-full w-full sm:w-auto text-center px-6">
               Consult a Veterinarian
-            </button>
+            </Link>
           </div>
         </div>
       </div>

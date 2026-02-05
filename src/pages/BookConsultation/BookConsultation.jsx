@@ -4,10 +4,10 @@ import Swal from "sweetalert2";
 import Consultation from "./Consultation";
 import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
 
 const BookConsultation = () => {
   const { user } = useAuth();
-
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -16,44 +16,42 @@ const BookConsultation = () => {
     watch,
     formState: { errors },
     reset,
+    setValue,
   } = useForm();
 
   const urgency = watch("urgency");
   const mode = watch("mode");
-  const category = watch("category");
 
   const calculateFee = () => {
     let fee = 0;
-
-    // Consultation mode fee
     if (mode === "Chat") fee = 30;
     if (mode === "Voice") fee = 50;
     if (mode === "Video") fee = 100;
-
-    // Emergency extra charge
     if (urgency === "Emergency") fee += 150;
-
     return fee;
   };
 
+  // ✅ TanStack Query v5 syntax
+  const doctorsQuery = useQuery({
+    queryKey: ["doctors"],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/users?role=doctor");
+      return res.data;
+    },
+    staleTime: 1000 * 60 * 5, // cache for 5 min
+  });
+
+  const { data: doctors = [], isLoading } = doctorsQuery;
+
   const onSubmit = async (data) => {
-    // 🔥 Combine date + time into ISO format
-    const consultationDateTime = new Date(
-      `${data.date}T${data.time}`,
-    ).toISOString();
+    const consultationDateTime = new Date(`${data.date}T${data.time}`).toISOString();
 
     const consultationData = {
       ...data,
-
-      // 👤 Who booked the consultation
       userEmail: user?.email,
-
-      // 📅 Consultation schedule (future tracking)
       consultationDate: data.date,
       consultationTime: data.time,
       consultationDateTime,
-
-      // 💰 Meta
       fee: calculateFee(),
       status: "pending",
       creation_date: new Date().toISOString(),
@@ -62,10 +60,10 @@ const BookConsultation = () => {
     const result = await Swal.fire({
       title: "Confirm Booking?",
       html: `
-      <p><strong>Fee:</strong> ৳${consultationData.fee}</p>
-      <p><strong>Date:</strong> ${data.date}</p>
-      <p><strong>Time:</strong> ${data.time}</p>
-    `,
+        <p><strong>Fee:</strong> ৳${consultationData.fee}</p>
+        <p><strong>Date:</strong> ${data.date}</p>
+        <p><strong>Time:</strong> ${data.time}</p>
+      `,
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Yes, Book",
@@ -73,9 +71,8 @@ const BookConsultation = () => {
     });
 
     if (result.isConfirmed) {
-      console.log("Saved Data:", consultationData);
-      axiosSecure.post("/bookings", consultationData).then((res) => {
-        console.log(res.data);
+      try {
+        const res = await axiosSecure.post("/bookings", consultationData);
         if (res.data.insertedId) {
           Swal.fire({
             icon: "success",
@@ -83,7 +80,14 @@ const BookConsultation = () => {
             text: "✅ Your consultation has been successfully booked.",
           });
         }
-      });
+      } catch (err) {
+        console.error("Booking failed:", err);
+        Swal.fire({
+          icon: "error",
+          title: "Booking Failed",
+          text: "❌ Something went wrong. Please try again.",
+        });
+      }
       reset();
     }
   };
@@ -95,6 +99,9 @@ const BookConsultation = () => {
       onSubmit={onSubmit}
       errors={errors}
       calculateFee={calculateFee}
+      doctors={doctors}
+      isLoadingDoctors={isLoading}
+      setValue={setValue}
     />
   );
 };

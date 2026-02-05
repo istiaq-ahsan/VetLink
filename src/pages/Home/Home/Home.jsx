@@ -4,6 +4,7 @@ import Services from '../Services/Services'
 import ClientLogosMarquee from '../ClientLogosMarquee/ClientLogosMarqueee'
 import VetServicesSection from '../VetServicesSection/VetServicesSection'
 import BeMerchant from '../BeMerchant/BeMerchant'
+import Faq from '../Faq/Faq'
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <ClientLogosMarquee></ClientLogosMarquee>
       <VetServicesSection></VetServicesSection>
       <BeMerchant></BeMerchant>
+      <Faq></Faq>
     </div>
   )
 }

@@ -2,14 +2,13 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
 import SocialLogin from "../SocialLogin/SocialLogin";
-import Button from '../../shared/Button/Button';
+import Button from "../../shared/Button/Button";
 import useAuth from "../../../hooks/useAuth";
-
 
 const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const from  = location.state?.from || '/';
+  const from = location.state?.from || "/";
 
   const {
     register,
@@ -22,7 +21,7 @@ const Login = () => {
   const onSubmit = (data) => {
     console.log(data);
     signIn(data.email, data.password)
-      .then(result => {
+      .then((result) => {
         //console.log(result.user);
         navigate(from, { replace: true });
       })
@@ -31,11 +30,10 @@ const Login = () => {
       });
   };
 
-
   return (
     <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <div className="card-body">
-        <h1 className="text-5xl font-bold">Please Login</h1>
+        <h1 className="text-4xl font-bold">Please Login</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <fieldset className="fieldset">
             <label className="label">Email</label>
@@ -69,7 +67,9 @@ const Login = () => {
               <a className="link link-hover">Forgot password?</a>
             </div>
 
-            <Button type="submit" className=" mt-4">Login</Button>
+            <Button type="submit" className=" mt-4">
+              Login
+            </Button>
           </fieldset>
           <p>
             <small>
@@ -80,7 +80,9 @@ const Login = () => {
             </small>
           </p>
         </form>
-      <SocialLogin></SocialLogin>
+        <div className="flex justify-center">
+          <SocialLogin></SocialLogin>
+        </div>
       </div>
     </div>
   );

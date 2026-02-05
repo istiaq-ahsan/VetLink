@@ -16,6 +16,7 @@ import AllPatients from "../pages/Dashboard/Doctor/AllPatients";
 import AllClients from "../pages/Dashboard/Admin/AllClients";
 import AllDoctors from "../pages/Dashboard/Admin/AllDoctors";
 import PendingDoctors from "../pages/Dashboard/Admin/PendingDoctors";
+import OurDoctors from "../pages/OurDoctors/OurDoctors";
 
 export const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ export const router = createBrowserRouter([
           path: "/coverage",
           Component: Coverage,
           loader: ()=> fetch("/serviceCenters.json")
+        },
+        {
+          path: "/our-doctors",
+          Component: OurDoctors
         },
         {
           path:"/book",
@@ -91,6 +96,10 @@ export const router = createBrowserRouter([
         path:"pending-doctors",
         Component: PendingDoctors
       },
+      {
+        path:"all-user",
+        Component: AllClients
+      }
     ]
   }
 ]);

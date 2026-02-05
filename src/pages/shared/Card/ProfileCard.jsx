@@ -13,7 +13,7 @@ const ProfileCard = ({ profile }) => {
   const { data: applications = [], isLoading, error } = useQuery({
     queryKey: ["vetApplications"],
     queryFn: async () => {
-      const res = await axiosSecure.get("/apply-doctor");
+      const res = await axiosSecure.get("/users");
       return res.data;
     },
   });
@@ -25,6 +25,8 @@ const ProfileCard = ({ profile }) => {
   const application = applications.find((app) => app.email === profile.email);
   const showBecomeDoctorButton =
     !application || !["pending", "approved"].includes(application.status);
+
+    console.log(application);
 
   return (
     <div className="min-h-screen flex items-center justify-center p-4 bg-gray-100">
@@ -45,7 +47,7 @@ const ProfileCard = ({ profile }) => {
           <p><b>Name:</b> {profile.displayName}</p>
           <p><b>Email:</b> {profile.email}</p>
           <p><b>Role:</b> {profile.role}</p>
-          <p><b>Joined:</b> {new Date(profile.createdAt).toLocaleDateString()}</p>
+          <p><b>Joined:</b> {new Date(profile.created_at).toLocaleDateString()}</p>
 
           {/* Buttons */}
           <div className="flex flex-col sm:flex-row justify-center md:justify-start gap-3 mt-4">

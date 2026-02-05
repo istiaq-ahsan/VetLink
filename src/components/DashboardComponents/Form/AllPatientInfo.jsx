@@ -1,8 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PatientDetail from "./PatientDetail";
+import Button from "../../../pages/shared/Button/Button";
+import useAxiosSecure from "../../../hooks/useAxiosSecure";
+import Swal from "sweetalert2";
 
-const AllPatientInfo = ({ bookings }) => {
+const AllPatientInfo = ({ bookings: initialBookings, refetch }) => {
+  const [bookings, setBookings] = useState(initialBookings);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const axiosSecure = useAxiosSecure();
+
+  // Update local state if initialBookings changes
+  useEffect(() => {
+    setBookings(initialBookings);
+  }, [initialBookings]);
+
+  const handleConfirm = async (bookingId) => {
+    try {
+      const res = await axiosSecure.patch(`/bookings/${bookingId}`, {
+        status: "confirmed",
+      });
+
+      if (res.data.modifiedCount > 0 || res.data.success) {
+        // Update local state immediately
+        setBookings((prev) =>
+          prev.map((b) =>
+            b._id === bookingId ? { ...b, status: "confirmed" } : b
+          )
+        );
+
+        Swal.fire({
+          icon: "success",
+          title: "Booking Confirmed!",
+          text: "The booking status has been updated.",
+          timer: 2000,
+          showConfirmButton: false,
+          timerProgressBar: true,
+        });
+
+        // Optional: refetch to sync with backend
+        refetch?.();
+      }
+    } catch (error) {
+      console.error("Failed to confirm booking:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Error",
+        text: "Failed to confirm booking. Please try again.",
+      });
+    }
+  };
 
   return (
     <>
@@ -25,24 +71,46 @@ const AllPatientInfo = ({ bookings }) => {
               <td>{b.petName}</td>
               <td>{b.petType}</td>
               <td>{b.userEmail}</td>
-              <td>{b.vet}</td>
+              <td>{b.vetName || b.vet}</td>
               <td>{b.date}</td>
               <td>{b.time}</td>
-              <td>{b.status}</td>
               <td>
-                <button
-                  className="btn btn-sm btn-info"
+                <span
+                  className={`badge ${
+                    b.status === "pending" ? "badge-warning" : "badge-success"
+                  }`}
+                >
+                  {b.status}
+                </span>
+              </td>
+              <td className="flex flex-col sm:flex-row sm:gap-2 gap-1">
+                {b.status === "pending" ? (
+                  <Button
+                    className="btn-sm btn-outline w-full sm:w-auto"
+                    onClick={() => handleConfirm(b._id)}
+                  >
+                    Confirm
+                  </Button>
+                ) : (
+                  <button
+                    className="btn-sm btn-success w-full sm:w-auto cursor-default"
+                    disabled
+                  >
+                    Confirmed
+                  </button>
+                )}
+                <Button
+                  className="btn-sm btn-outline w-full sm:w-auto"
                   onClick={() => setSelectedBooking(b)}
                 >
                   Details
-                </button>
+                </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {/* Modal */}
       {selectedBooking && (
         <PatientDetail
           booking={selectedBooking}

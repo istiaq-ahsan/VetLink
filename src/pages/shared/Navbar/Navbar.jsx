@@ -12,10 +12,13 @@ const Navbar = () => {
         <NavLink to="/">Home</NavLink>
       </li>
       <li>
-        <NavLink to="/coverage">Coverage</NavLink>
+        <NavLink to="/our-doctors">Our Doctors</NavLink>
       </li>
       <li>
         <NavLink to="/book">Book Consultation</NavLink>
+      </li>
+      <li>
+        <NavLink to="/coverage">Coverage</NavLink>
       </li>
       {user && (
         <li>
@@ -25,7 +28,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100 shadow-sm z-50 top-0 fixed w-full">
+    <div className="navbar bg-base-100 shadow-sm z-50 top-0 fixed w-full px-5 md:px-10">
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

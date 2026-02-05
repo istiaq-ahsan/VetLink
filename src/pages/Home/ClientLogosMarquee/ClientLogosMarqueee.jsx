@@ -2,11 +2,11 @@ import React from 'react';
 import Marquee from 'react-fast-marquee';
 
 // import your logos
-import amazon from '../../../assets/brands/amazon.png';
-import casio from '../../../assets/brands/casio.png';
-import moonstar from '../../../assets/brands/moonstar.png';
-import start from '../../../assets/brands/star.png';
-import randstad from '../../../assets/brands/randstad.png';
+import amazon from '../../../assets/brands/RRP.png';
+import casio from '../../../assets/brands/agro-chem.png';
+import moonstar from '../../../assets/brands/agrobd.png';
+import start from '../../../assets/brands/varahi.png';
+import randstad from '../../../assets/brands/mizi.jpg';
 
 const logos = [amazon, casio, moonstar, start, randstad];
 
@@ -20,7 +20,7 @@ const ClientLogosMarquee = () => {
             <Marquee pauseOnHover speed={50} gradient={false}>
           {logos.map((logo, idx) => (
             <div key={idx} className="mx-24 flex items-center">
-              <img src={logo} alt={`Client Logo ${idx + 1}`} className="h-7 object-contain" />
+              <img src={logo} alt={`Client Logo ${idx + 1}`} className="h-20 object-contain" />
             </div>
           ))}
         </Marquee>
