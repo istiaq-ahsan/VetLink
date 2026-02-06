@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../shared/Button/Button";
 
 const DoctorCard = ({ doctor }) => {
   const navigate = useNavigate();
@@ -27,12 +28,12 @@ const DoctorCard = ({ doctor }) => {
           📅 Experience: {doctor.experience} years
         </p>
 
-        <button
-          className="btn btn-success w-full mt-3"
+        <Button
+          className=""
           onClick={() => navigate("/book", { state: doctor })}
         >
           Book Consultation
-        </button>
+        </Button>
       </div>
     </div>
   );

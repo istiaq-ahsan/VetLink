@@ -20,6 +20,9 @@ const Navbar = () => {
       <li>
         <NavLink to="/coverage">Coverage</NavLink>
       </li>
+      <li>
+        <NavLink to="/education-corner">Education Corner</NavLink>
+      </li>
       {user && (
         <li>
           <NavLink to="/dashboard">Dashboard</NavLink>

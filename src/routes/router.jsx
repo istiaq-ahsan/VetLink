@@ -17,6 +17,10 @@ import AllClients from "../pages/Dashboard/Admin/AllClients";
 import AllDoctors from "../pages/Dashboard/Admin/AllDoctors";
 import PendingDoctors from "../pages/Dashboard/Admin/PendingDoctors";
 import OurDoctors from "../pages/OurDoctors/OurDoctors";
+import EducationCorner from "../pages/EducationCorner/EducationCorner";
+import DoctorEducationInput from "../pages/Dashboard/Doctor/DoctorEducationInput";
+import DoctorCall from "../pages/Dashboard/Doctor/DoctorCall";
+import UserCall from "../pages/Dashboard/User/UserCall";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +39,11 @@ export const router = createBrowserRouter([
         {
           path: "/our-doctors",
           Component: OurDoctors
+        },
+        {
+          path: "/education-corner",
+          Component: EducationCorner,
+          loader: ()=> fetch("/blog.json")
         },
         {
           path:"/book",
@@ -73,6 +82,10 @@ export const router = createBrowserRouter([
         Component: MyBookings
       },
       {
+        path:"user-call",
+        Component: UserCall
+      },
+      {
         path:"booking-history",
         Component: BookingHistory
       },
@@ -87,6 +100,14 @@ export const router = createBrowserRouter([
       {
         path:"patients",
         Component: AllPatients
+      },
+      {
+        path:"dr-edu-input",
+        Component: DoctorEducationInput
+      },
+      {
+        path:"dr-call",
+        Component: DoctorCall
       },
       {
         path:"all-doctors",

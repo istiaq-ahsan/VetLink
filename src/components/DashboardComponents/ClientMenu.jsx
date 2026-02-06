@@ -6,6 +6,7 @@ const ClientMenu = () => {
     <>
       <MenuItem label="Book Consultation" address="/dashboard/book-consultation"/>
       <MenuItem label="My Bookings" address="/dashboard/my-bookings" />
+      <MenuItem label="Call" address="/dashboard/user-call" />
       <MenuItem label="Prescriptions" address="/dashboard/prescriptions" />
       <MenuItem label="Booking History" address="/dashboard/booking-history" />
     </>

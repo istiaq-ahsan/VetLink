@@ -8,7 +8,7 @@ const CommonButton = ({
     <button
       type={type}
       onClick={onClick}
-      className={`btn bg-green-600 hover:bg-green-700 text-white  ${className}`}
+      className={`btn bg-green-600 hover:bg-green-700 text-white rounded-full  ${className}`}
     >
       {children}
     </button>

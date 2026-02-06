@@ -8,7 +8,7 @@ import Faq from '../Faq/Faq'
 
 const Home = () => {
   return (
-    <div>
+    <div className='min-h-screen'>
       <Banner></Banner>
       <Services></Services>
       <ClientLogosMarquee></ClientLogosMarquee>
